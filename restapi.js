@@ -181,6 +181,11 @@ function Sync(method, model, opts) {
 		}
 	}
 
+	// Allows dynamic parameters in URL
+	_.each(params.requestparams, function(value, key) {
+        params.url = params.url.replace('{' + key + '}', value ? value : '', "gi");
+    });
+
 	// Extend the provided url params with those from the model config
 	if (_.isObject(params.urlparams) || model.config.URLPARAMS) {
         params.urlparams = params.urlparams || {};

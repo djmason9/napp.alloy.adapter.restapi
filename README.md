@@ -107,6 +107,26 @@ will valuable to understand how does BackboneJS manages CRUD operations.
 ## Special Properties
 
 
+### Request Params
+
+Change the url dynamically by using {} e.g. `{album_id}`.
+
+	exports.definition = {
+	    config : {
+	        "URL": "http://urlPathToRestAPIServer.com/api/albums/{album_id}/modelname",
+		}
+	}
+
+Use it like this in your controller:
+
+	collection.fetch({
+		requestparams: {
+			album_id: 22
+		}
+	});
+	
+Will result in: http://urlPathToRestAPIServer.com/api/albums/22/modelname
+
 ### Custom Headers
 
 Define your own custom headers. E.g. to add a BaaS API
