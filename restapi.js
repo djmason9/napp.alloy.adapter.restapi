@@ -107,7 +107,7 @@ function apiCall(_options, _callback) {
 		}
 
 		if (_options.type != 'GET' && !_.isEmpty(_options.data)) {
-			xhr.send(_options.data);
+			xhr.send(JSON.parse(_options.data));
 		} else {
 			xhr.send();
 		}
@@ -154,9 +154,20 @@ function Sync(method, model, opts) {
 		'delete' : 'DELETE'
 	};
 
-	var type = methodMap[method];
-	var params = _.extend({}, opts);
-	params.type = opts.requestMethod || type;
+	var requestMethodMap = {
+        'POST' : 'create',
+        'GET' : 'read',
+        'PUT' : 'update',
+        'DELETE' : 'delete'
+    };     
+    
+    var params = _.extend({}, opts); 
+	var type = methodMap[method];	
+	type = params.requestMethod || type;
+	//remap the method if overridden
+	method = requestMethodMap[type];
+	
+	params.type = type;	
 
 	//set default headers
 	params.headers = params.headers || {};
