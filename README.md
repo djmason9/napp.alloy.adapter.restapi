@@ -207,6 +207,9 @@ myModel.fetch({
 
 ## Changelog
 
+**v1.1.14**  
+BugFix for parsed data on send when using a POST with a fetch. also added a fix for mapping the type
+
 **v1.1.13**  
 BugFix for no responseText from a successful response
 
