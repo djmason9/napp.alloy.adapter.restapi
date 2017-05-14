@@ -107,7 +107,7 @@ function apiCall(_options, _callback) {
 		}
 
 		if (_options.type != 'GET' && !_.isEmpty(_options.data)) {
-			xhr.send(JSON.parse(_options.data));
+			xhr.send(_options.data);
 		} else {
 			xhr.send();
 		}
@@ -192,6 +192,14 @@ function Sync(method, model, opts) {
 		}
 	}
 
+ 	//override url
+    var jsonModel = model.toJSON();
+    
+    //replaces url 
+    if(jsonModel.url){
+        params.url = jsonModel.url;        
+    }
+    
 	// Allows dynamic parameters in URL
 	_.each(params.requestparams, function(value, key) {
         params.url = params.url.replace('{' + key + '}', value ? value : '', "gi");
@@ -235,7 +243,7 @@ function Sync(method, model, opts) {
 	switch(method) {
 		case 'create' :
 			// convert to string for API call
-			params.data = JSON.stringify(model.toJSON());
+			_.extend(params.data, model.toJSON()); 
 			logger(DEBUG, "create options", params);
 
 			apiCall(params, function(_response) {
